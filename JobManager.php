@@ -32,13 +32,13 @@ class JobManager
 	 * @param Job $jobInfos some attributes of the job, e.g. jobname and start date.
 	 * @param Model\JobManagerRepositoryInterface $jobModel gateway to save data, typically in a database.
 	 */
-	// public function __construct(Job $jobInfos, Model\JobManagerRepositoryInterface $jobModel) {
 	public function __construct(Model\JobManagerRepositoryInterface $jobModel) {
 		if (empty($jobModel)) throw new InvalidArgumentException('empty jobmodel');
 		$this->jobModel = $jobModel;
 	}
 
-	public function isJobRegistered(string $jobname) {
+	public function isJobRegistered(string $jobname)
+	{
 		$job = $this->getJob($jobname);
 		if (empty($job)) return false;
 		else return true;
@@ -52,7 +52,8 @@ class JobManager
 		$this->addJob($job);
 	}
 
-	protected function addJob(Job $job) {
+	protected function addJob(Job $job)
+	{
 		$jobname = $job->getJobname();
 		$this->jobs[$jobname] = $job;
 	}
@@ -61,7 +62,8 @@ class JobManager
 	 * @param string $jobname
 	 * @return \Bude\JobManager\Job|null
 	 */
-	public function getJob(string $jobname) {
+	public function getJob(string $jobname)
+	{
 		if (isset($this->jobs[$jobname])) {
 			return $this->jobs[$jobname];
 		}
