@@ -1,8 +1,5 @@
 <?php
-/**
- * User: bderix
- * Date: 13.03.2023
- */
+
 
 namespace Bude\JobManager;
 
