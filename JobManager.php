@@ -32,7 +32,8 @@ class JobManager
 	 * @param Job $jobInfos some attributes of the job, e.g. jobname and start date.
 	 * @param Model\JobManagerRepositoryInterface $jobModel gateway to save data, typically in a database.
 	 */
-	public function __construct(Model\JobManagerRepositoryInterface $jobModel) {
+	public function __construct(Model\JobManagerRepositoryInterface $jobModel)
+	{
 		if (empty($jobModel)) throw new InvalidArgumentException('empty jobmodel');
 		$this->jobModel = $jobModel;
 	}
