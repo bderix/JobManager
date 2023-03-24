@@ -7,7 +7,9 @@ use Exception;
 use InvalidArgumentException;
 
 /**
- * JobManager class for registering and executing jobs.
+ * JobManager class for registering and executing (cron)jobs.
+ * Use this class to control and track the executions of your (cron)jobs, e.g. prevent duplicate execution, get an overview
+ * of all executed (cron)jobs, add a Logger to every (cron)job.
  * @package Bude\JobManager
  * @author Bernhard Derix <bderix at web de>
  */

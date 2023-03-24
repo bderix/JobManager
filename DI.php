@@ -4,16 +4,17 @@ namespace Bude\JobManager;
 
 class DI {
 
-	public static function getJobManagerModel()
+	/**
+	 *
+	 * @param $db can be a config-array or a pdo resource.
+	 * @return Model\JobManagerPdoRepository|mixed
+	 */
+	public static function getJobManagerModel($db)
 	{
 		static $jobManagerModel;
 		if (!empty($jobManagerModel)) return $jobManagerModel;
 
-		$db = \config_web::$dbase['log'];
-		$conn['dsn'] = "mysql:host={$db['hostname']};dbname={$db['database']};charset=utf8mb4";
-		$conn['username'] = $db['login'];
-		$conn['password'] = $db['pass'];
-		$jobManagerModel = new Model\JobManagerPdoRepository($conn);
+		$jobManagerModel = new Model\JobManagerPdoRepository($db);
 		return $jobManagerModel;
 	}
 

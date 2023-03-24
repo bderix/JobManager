@@ -13,7 +13,7 @@ use Bude\JobManager\Logger;
 class ExecutableJob implements ExecutableJobInterface {
 
 	/**
-	 * @LoggerInterface logger
+	 * @var Logger\LoggerInterface logger
 	 */
 	protected $logger;
 
