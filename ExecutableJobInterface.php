@@ -7,7 +7,7 @@ use Bude\JobManager\Logger;
 /**
  * Klassen die dieses Interface implementieren können z.B. als Job gesetzt werden.
  * @package Bude\Shop\Cron
- * @see Job
+ * @see JobExecutor
  */
 interface ExecutableJobInterface {
 

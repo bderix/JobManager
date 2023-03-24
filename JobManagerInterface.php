@@ -17,24 +17,24 @@ interface JobManagerInterface {
 
 	/**
 	 * Before executing, a job must first be registered.
-	 * @param Job $job
+	 * @param JobExecutor $job
 	 * @return mixed
 	 */
-	public function registerJob(Job $job);
+	public function registerJob(JobExecutor $job);
 
 	/**
 	 * @param string $jobname
-	 * @return Job
+	 * @return JobExecutor
 	 */
 	public function getJob(string $jobname);
 
 	/**
 	 * Check if the cronjob can be started and start the registered task if it is allowed.
-	 * @param Job $job
+	 * @param JobExecutor $job
 	 * @param string $origin
 	 * @return mixed
 	 */
-	public function startExecution(Job $job, string $origin = '');
+	public function startExecution(JobExecutor $job, string $origin = '');
 
 	/**
 	 * Gets the last execution of the job $jobname.

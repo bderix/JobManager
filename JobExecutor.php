@@ -12,7 +12,7 @@ use InvalidArgumentException;
  * @see JobManager\JobManager
  *
  */
-class Job {
+class JobExecutor {
 
 	const ACTIVE = 'active';
 	const INACTIVE = 'inactive';

@@ -2,7 +2,7 @@
 
 namespace Bude\JobManager\Model;
 
-use Bude\JobManager\Job;
+use Bude\JobManager\JobExecutor;
 use Bude\JobManager\JobExecution;
 use Bude\JobManager\Logger\JobLoggerEntry;
 use PDO;
@@ -63,7 +63,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 		), $config);
 	}
 
-	public function registerNewJob(Job $job)
+	public function registerNewJob(JobExecutor $job)
 	{
 		if (empty($job)) throw new InvalidArgumentException("no job");
 		if ($this->getJobByName($job->getJobname())) throw new Exception("job already exists");
@@ -75,7 +75,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 
 	/**
 	 * @param $jobname
-	 * @return Job|null
+	 * @return JobExecutor|null
 	 */
 	public function getJobByName($jobname)
 	{
@@ -84,11 +84,11 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 		$params = array($jobname);
 		$arr = $this->fetch($sql, $params);
 		if (empty($arr)) return null;
-		$job = new Job($arr['jobname'], $arr['jobgroup'], $arr['jobstatus'], $arr['min_elapse_on_success'], $arr['min_elapse_on_error'], $arr['script'], $arr['description'], $arr['xml']);
+		$job = new JobExecutor($arr['jobname'], $arr['jobgroup'], $arr['jobstatus'], $arr['min_elapse_on_success'], $arr['min_elapse_on_error'], $arr['script'], $arr['description'], $arr['xml']);
 		return $job;
 	}
 
-	public function updateJob(Job $job)
+	public function updateJob(JobExecutor $job)
 	{
 		if (!$this->getJobByName($job->getJobname())) throw new Exception('no job exists');
 		$sql = 'UPDATE %s SET jobgroup=?, jobstatus=?, min_elapse_on_success=?, min_elapse_on_error=?, script=?, description=?, xml=? WHERE jobname=?';

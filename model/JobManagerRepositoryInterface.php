@@ -4,7 +4,7 @@
 namespace Bude\JobManager\Model;
 
 
-use Bude\JobManager\Job;
+use Bude\JobManager\JobExecutor;
 use Bude\JobManager\JobExecution;
 use Bude\JobManager\Logger\JobLoggerEntry;
 
@@ -12,18 +12,18 @@ interface JobManagerRepositoryInterface
 {
 
 	/**
-	 * @param Job $job
+	 * @param JobExecutor $job
 	 * @return mixed
 	 */
-	public function registerNewJob(Job $job);
+	public function registerNewJob(JobExecutor $job);
 
 	/**
 	 * @param $jobname
-	 * @return Job
+	 * @return JobExecutor
 	 */
 	public function getJobByName($jobname);
 
-	public function updateJob(Job $job);
+	public function updateJob(JobExecutor $job);
 
 	public function updateJobStatus($jobname, $status);
 

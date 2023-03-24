@@ -2,7 +2,7 @@
 
 namespace Bude\JobManager;
 
-use Bude\JobManager\Job;
+use Bude\JobManager\JobExecutor;
 use Exception;
 use InvalidArgumentException;
 
@@ -29,7 +29,7 @@ class JobManager
 
 	/**
 	 * Constructor for the JobManager class.
-	 * @param Job $jobInfos some attributes of the job, e.g. jobname and start date.
+	 * @param JobExecutor $jobInfos some attributes of the job, e.g. jobname and start date.
 	 * @param Model\JobManagerRepositoryInterface $jobModel gateway to save data, typically in a database.
 	 */
 	public function __construct(Model\JobManagerRepositoryInterface $jobModel)
@@ -45,7 +45,7 @@ class JobManager
 		else return true;
 	}
 
-	public function registerJob(Job $job)
+	public function registerJob(JobExecutor $job)
 	{
 		if (empty($job)) throw new InvalidArgumentException('no job to register');
 		if ($this->isJobRegistered($job->getJobname())) return;
@@ -53,7 +53,7 @@ class JobManager
 		$this->addJob($job);
 	}
 
-	protected function addJob(Job $job)
+	protected function addJob(JobExecutor $job)
 	{
 		$jobname = $job->getJobname();
 		$this->jobs[$jobname] = $job;
@@ -61,7 +61,7 @@ class JobManager
 
 	/**
 	 * @param string $jobname
-	 * @return \Bude\JobManager\Job|null
+	 * @return \Bude\JobManager\JobExecutor|null
 	 */
 	public function getJob(string $jobname)
 	{
@@ -78,7 +78,7 @@ class JobManager
 		}
 	}
 
-	public function startExecution(Job $job, string $origin = '')
+	public function startExecution(JobExecutor $job, string $origin = '')
 	{
 		$jobname = $job->getJobname();
 
