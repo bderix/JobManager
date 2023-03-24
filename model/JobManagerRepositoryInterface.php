@@ -6,7 +6,7 @@ namespace Bude\JobManager\Model;
 
 use Bude\JobManager\Job;
 use Bude\JobManager\JobExecution;
-use Bude\JobManager\JobLoggerEntry;
+use Bude\JobManager\Logger\JobLoggerEntry;
 
 interface JobManagerRepositoryInterface
 {

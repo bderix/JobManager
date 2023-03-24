@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Bude\JobManager;
+namespace Bude\JobManager\Logger;
 
+use Bude\JobManager\Model;
 
 /**
  * Every JobLogger must be derived from this mutli interface class and then simply implement the log() method.
@@ -10,11 +11,15 @@ namespace Bude\JobManager;
  */
 class JobLogger implements LoggerInterface, JobLoggerInterface {
 
+	/**
+	 * @var Model\JobManagerRepositoryInterface
+	 */
+	protected $model;
+
 	protected $executionId;
 
 	protected $stepId;
 
-	protected $model;
 
 	protected $logLevel = LogLevel::INFO;
 

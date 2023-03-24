@@ -1,6 +1,6 @@
 <?php
 
-namespace Bude\JobManager;
+namespace Bude\JobManager\Logger;
 
 /**
  * Ein CronLogger benötigt eine taskId, die hierüber gesetzt werden muss.

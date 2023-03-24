@@ -1,6 +1,6 @@
 <?php
 
-namespace Bude\JobManager;
+namespace Bude\JobManager\Logger;
 
 /**
  * PSR-3 conform Logger Interface.

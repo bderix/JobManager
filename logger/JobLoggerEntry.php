@@ -1,6 +1,6 @@
 <?php
 
-namespace Bude\JobManager;
+namespace Bude\JobManager\Logger;
 
 use InvalidArgumentException;
 

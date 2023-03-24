@@ -21,9 +21,9 @@ class DI {
 		static $jobLogger;
 		if (!empty($jobLogger)) return $jobLogger;
 
-		$filename = '/var/www/data/jobmanagerfilelogger.txt';
+		// $filename = '/var/www/data/jobmanagerfilelogger.txt';
 		// $jobLogger = new FileJobLogger($filename);
-		$jobLogger = new JobLogger(self::getJobManagerModel());
+		$jobLogger = new Logger\JobLogger(self::getJobManagerModel());
 		return $jobLogger;
 
 

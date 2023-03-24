@@ -3,6 +3,8 @@
 
 namespace Bude\JobManager;
 
+use Bude\JobManager\Logger;
+
 /**
  * Any job or task that can be started. Standalone or registered by CronjobManager and started by CronjobManager.
  * Class ExecutableJob
@@ -27,7 +29,7 @@ class ExecutableJob implements ExecutableJobInterface {
 	public function end() {
 	}
 
-	public function setLogger(LoggerInterface $logger) {
+	public function setLogger(Logger\LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 

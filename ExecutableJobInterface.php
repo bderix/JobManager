@@ -2,6 +2,8 @@
 
 namespace Bude\JobManager;
 
+use Bude\JobManager\Logger;
+
 /**
  * Klassen die dieses Interface implementieren können z.B. als Job gesetzt werden.
  * @package Bude\Shop\Cron
@@ -31,7 +33,7 @@ interface ExecutableJobInterface {
 
 	public function hasOption(string $name);
 
-	public function setLogger(LoggerInterface $logger);
+	public function setLogger(Logger\LoggerInterface $logger);
 
 
 }
