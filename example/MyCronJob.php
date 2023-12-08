@@ -1,8 +1,14 @@
 <?php
 
+namespace Bude\JobManager\Example;
+
 use Bude\JobManager\ExecutableJob;
 
 
+/**
+ * Example class that does soemthing.
+ * This class is called via the (cron)job-script and has to implement ExecutableJob
+ */
 class MyCronJob extends ExecutableJob {
 
 	private $dbForMyCronJob;

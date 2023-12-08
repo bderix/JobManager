@@ -7,7 +7,7 @@ use Exception;
 use InvalidArgumentException;
 
 /**
- * The Job class holds data like name, group, status and description of a jobtask, that should be executed later on.
+ * Every instance of JobExecutor is linked with a jobtask (of type ExecutableJob) that is to be executed by this.
  * It is used in JobManager.
  * @see JobManager\JobManager
  *
@@ -119,6 +119,7 @@ class JobExecutor {
 	}
 
 	/**
+	 * Start the linked jobtask, set start time and set the logger for the jobtask.
 	 * @param JobManager\Model\JobManagerRepositoryInterface $repository
 	 * @param string $origin
 	 * @return void
@@ -137,7 +138,7 @@ class JobExecutor {
 		$execution->setExecutionId($executionId);
 
 		// Set the logger for the task
-		$jobLogger = JobManager\DI::getJobLogger();
+		$jobLogger = JobManager\DI::getJobLogger($repository);
 		$jobLogger->setExecutionId($executionId);
 		$this->executableTask->setLogger($jobLogger);
 		$this->executableTask->start();

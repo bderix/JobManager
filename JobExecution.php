@@ -34,7 +34,7 @@ class JobExecution {
 
 	protected $finish;
 
-	protected $code;
+	protected $code = 0;
 
 	protected $summary;
 

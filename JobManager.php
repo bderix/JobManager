@@ -40,20 +40,6 @@ class JobManager
 		$this->jobModel = $jobModel;
 	}
 
-	public function isJobRegistered(string $jobname)
-	{
-		$job = $this->getJob($jobname);
-		if (empty($job)) return false;
-		else return true;
-	}
-
-	public function registerJob(JobExecutor $job)
-	{
-		if (empty($job)) throw new InvalidArgumentException('no job to register');
-		if ($this->isJobRegistered($job->getJobname())) return;
-		$this->jobModel->registerNewJob($job);
-		$this->addJob($job);
-	}
 
 	protected function addJob(JobExecutor $job)
 	{
@@ -80,6 +66,31 @@ class JobManager
 		}
 	}
 
+	public function getJobOrRegister(string $jobname, JobExecutor $jobData)
+	{
+		$job = $this->getJob($jobname);
+		if (empty($job)) {
+			$this->registerJob($jobData);
+		}
+		return $job;
+	}
+
+	public function isJobRegistered(string $jobname)
+	{
+		$job = $this->getJob($jobname);
+		if (empty($job)) return false;
+		else return true;
+	}
+
+	public function registerJob(JobExecutor $job)
+	{
+		if (empty($job)) throw new InvalidArgumentException('no job to register');
+		if ($this->isJobRegistered($job->getJobname())) return;
+		$this->jobModel->registerNewJob($job);
+		$this->addJob($job);
+	}
+
+
 	public function startExecution(JobExecutor $job, string $origin = '')
 	{
 		$jobname = $job->getJobname();
@@ -93,7 +104,7 @@ class JobManager
 			$lastJobExecution = $this->getLastJobExecution($jobname);
 			if (!empty($lastJobExecution)) {
 				// if job finished successfully next execution has to wait a defined min time befor next start
-				if ($lastJobExecution->jobFinishedSuccessful() and $lastJobExecution->elapsedSecondsSinceLastFinish() < $job->minElapseOnSuccess) {
+				if ($lastJobExecution->jobFinishedSuccessful() and $job->minElapseOnSuccess!=0 and $lastJobExecution->elapsedSecondsSinceLastFinish() < $job->minElapseOnSuccess) {
 					throw new Exception("not enough seconds have elapsed before next execution ({$job->minElapseOnSuccess} seconds needed)", JobMangerExceptionCodes::LAST_EXECUTION_HAS_FINISHED_WITH_ERROR);
 				}
 				// if job hasn't finished successfully he has to wait a defined min time befor next start

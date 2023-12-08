@@ -10,7 +10,7 @@ use Bude\JobManager\Logger;
  * Class ExecutableJob
  * @package Bude\Shop\Cron
  */
-class ExecutableJob implements ExecutableJobInterface {
+abstract class ExecutableJob implements ExecutableJobInterface {
 
 	/**
 	 * @var Logger\LoggerInterface logger
@@ -22,9 +22,6 @@ class ExecutableJob implements ExecutableJobInterface {
 	protected $message = '';
 
 	protected $options;
-
-	public function start() {
-	}
 
 	public function end() {
 	}

@@ -40,6 +40,9 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 	public function __construct($connection, $config = array())
 	{
 		if (!$connection instanceof PDO) {
+			if (empty($connection)) {
+				throw new InvalidArgumentException('empty PDO connection string');
+			}
 			if (is_string($connection)) {
 				$connection = array('dsn' => $connection);
 			}
@@ -51,6 +54,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 			}
 			$connection = array_merge(array('username' => null, 'password' => null, 'options' => array()), $connection);
 			$connection = new PDO($connection['dsn'], $connection['username'], $connection['password'], $connection['options']);
+
 		}
 		$this->pdo = $connection;
 
@@ -142,6 +146,13 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 
 	}
 
+	public function getJobs()
+	{
+		$sql = 'SELECT * from %s WHERE 1=1 ORDER BY jobname';
+		$sql = sprintf($sql, $this->config['jobs_table']);
+		return $this->fetchAll($sql);
+	}
+
 	/**
 	 * @param string $client_id
 	 * @return array|mixed
@@ -168,7 +179,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 	{
 		$pos = 0;
 	    foreach ($params as $value) {
-	        $quotedValue = is_numeric($value) ? $value : "'" . addslashes($value) . "'";
+	        $quotedValue = is_numeric($value) ? $value : "'" . addslashes($value ?? '') . "'";
 			$pos = strpos($sql, '?', $pos);
 			$sql = substr_replace($sql, $quotedValue, $pos, 1);
 	        // $sqlWithParams = str_replace(':' . $key, $quotedValue, $sqlWithParams);
@@ -188,7 +199,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 		return $this->sql;
 	}
 
-	private function fetch($sql, $params)
+	private function fetch($sql, $params = array())
 	{
 		$this->pdo->prepare($sql);
 		$this->sql = $this->generateExecutableSql($sql, $params);
@@ -196,7 +207,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
-	private function fetchAll($sql, $params)
+	private function fetchAll($sql, $params = array())
 	{
 		$this->pdo->prepare($sql);
 		$this->sql = $this->generateExecutableSql($sql, $params);
@@ -204,7 +215,7 @@ class JobManagerPdoRepository implements JobManagerRepositoryInterface  {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	private function execute($sql, $params)
+	private function execute($sql, $params = array())
 	{
 		$stmt = $this->pdo->prepare($sql);
 		$this->sql = $this->generateExecutableSql($sql, $params);
