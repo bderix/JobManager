@@ -20,7 +20,7 @@ interface ExecutableJobInterface {
 	public function setCode(int $code);
 
 	/**
-	 * Für dne Logger muss der Job eine Zusammenfassung bereitstellen.
+	 * Für den Logger muss der Job eine Zusammenfassung bereitstellen.
 	 * @return string
 	 */
 	public function getMessage();

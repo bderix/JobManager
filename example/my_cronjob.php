@@ -5,6 +5,7 @@
 
 
 use Bude\JobManager;
+use Bude\DI;
 
 
 // e.g., up to your control
@@ -21,24 +22,31 @@ try {
 	$cronjob = new MyCronJob($fakeDb, $fakeResource, $testString);
 
 
+
+	// Next: think of a unique name of the cronjob (primary key)
+	$jobname = 'mycronjob'; // up to you
+	$groupname = 'imports';
+	$status = JobManager\JobExecutor::ACTIVE;
+	$script = 'import/my_cronjob.php';
+	$minElapseOnSuccess = 1;
+	$minElapseOnError = 60;
+	$description = 'Imports data';
+	// $options = Object;
+
+
 	// Next: get the jobmanager db-model
 
 	// $db = $pdo; // $db could be a pdo or a config array
 	$db['dsn'] = "mysql:host=dbhost;dbname=dbname;charset=utf8mb4";
 	$db['username'] = 'dbuser';
 	$db['password'] = 'dbpass';
-	$jobManagerModel = JobManager\DI::getJobManagerModel($db);
 
 
-
-	// Next: create the JobManager and inject model (dependency injection -> you could use your own model, if it implements JobManagerRepositoryInterface)
-
+	$jobManagerModel = DI::getJobManagerModel();
 	$jobManager = new JobManager\JobManager($jobManagerModel);
 
-
-
-	// Next: think of a unique name of the cronjob (primary key)
-	$jobname = 'cronjob1'; // up to you
+	$job = $jobManager->getJobOrRegister($jobname, new JobManager\JobExecutor($jobname, $groupname, $status, $minElapseOnSuccess, $minElapseOnError, $script, $description));
+	if (!$live) $job->setOption($job::OPTION_FORCE_RESTART, true);
 
 
 	// Next: get jobExecutor or register in database (if not already registered)

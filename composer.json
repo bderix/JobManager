@@ -1,12 +1,13 @@
 {
-    "name": "Bude/JobManager",
+    "name": "bude/jobmanager",
     "description": "This JobManager is used to validate, configure, track and log php-jobs (typically cronjobs) and includes a small web interface to list all jobs, job-executions and job-logs.",
     "require": {
-        "php": ">=7.4",
-    }
+        "php": ">=5.4",
+        "ext-pdo": "*"
+    },
   "autoload": {
       "psr-4": {
-          "Monolog": "src"
+          "JobManager\\": "/var/www/bderix/trunk/class/bude/jobmanager/"
       }
   }
 }
