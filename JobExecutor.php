@@ -16,6 +16,10 @@ class JobExecutor {
 
 	const ACTIVE = 'active';
 	const INACTIVE = 'inactive';
+
+	/**
+	 * Option value to restart the job, no matter any other parameters.
+	 */
 	const OPTION_FORCE_RESTART = 'force-restart';
 
 	/**
@@ -83,7 +87,8 @@ class JobExecutor {
 		int    $minElapseOnError = 0,
 		string $script = '',
 		string $description = '',
-		string $xml = '') {
+		string $xml = '')
+	{
 		if (empty($jobname)) throw new InvalidArgumentException("empty jobname");
 		if (!in_array($jobstatus, [self::ACTIVE, self::INACTIVE])) {
 			throw new InvalidArgumentException("invalid jobstatus: {$jobstatus}");

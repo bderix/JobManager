@@ -66,6 +66,12 @@ class JobManager
 		}
 	}
 
+	/**
+	 * Returns a job to be executed from database (see create.sql for tables) or registers new job in database.
+	 * @param string $jobname
+	 * @param \Bude\JobManager\JobExecutor $jobData
+	 * @return \Bude\JobManager\JobExecutor|null
+	 */
 	public function getJobOrRegister(string $jobname, JobExecutor $jobData)
 	{
 		$job = $this->getJob($jobname);
@@ -96,7 +102,7 @@ class JobManager
 		$jobname = $job->getJobname();
 
 		// Check if the job can be restarted
-		if (!$job->hasOption($job::OPTION_FORCE_RESTART)) {
+		if (!$job->hasOption(JobExecutor::OPTION_FORCE_RESTART)) {
 			if (!$job->isActive()) {
 				throw new Exception("job is not active", JobMangerExceptionCodes::JOB_IS_NOT_ACTIVE);
 			}
