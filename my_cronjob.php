@@ -23,8 +23,6 @@ $my_cronjob = new JobManager\Example\MyCronJob($fakeDb, $fakeResource, $testStri
 // Next: think of a unique name of the cronjob (primary key)
 $jobname = 'mycronjob'; // up to you
 $groupname = 'imports';
-
-
 $status = JobManager\JobExecutor::ACTIVE;
 $script = 'import/my_cronjob.php';
 $minElapseOnSuccess = 1; // at least 1 minute has to elapse before restart after last successfull start
