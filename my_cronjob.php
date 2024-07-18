@@ -33,8 +33,8 @@ $description = 'Imports data';
 try {
 	$db =array(
 		'hostname' => '10.64.213.228',
-		'login' => 'buecher_log',
-		'pass' => 'dzDgr7643u3m32hD64',
+		'login' => 'mylogin',
+		'pass' => 'xxxxxxxxxxxxxxx',
 		'database' => 'log'
 	);
 	// Next: get the jobmanager db-model to write job parameters and executions to database.
