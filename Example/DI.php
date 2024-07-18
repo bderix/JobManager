@@ -11,12 +11,6 @@ use PDO;
 
 class DI {
 
-	public static function getModel($name)
-	{
-		$model = \activerecord_activeRecordFactory::get_instance()->get($name);
-		return $model;
-	}
-
 	public static function getPdo($db)
 	{
 		$dsn = "mysql:host={$db['hostname']};dbname={$db['database']};charset=utf8mb4";
