@@ -25,6 +25,7 @@ $testString = "This conjob gets tracked with the JobManager library";
 $my_cronjob = new JobManager\Example\MyCronJob($fakeDb, $fakeResource, $testString);
 
 // Next: think of a unique name of the cronjob (primary key)
+// these parameters will bei saved in the database
 $jobname = 'mycronjob'; // up to you
 $groupname = 'imports'; // up to you
 $status = JobManager\JobExecutor::ACTIVE;
@@ -42,11 +43,13 @@ try {
 		'pass' => 'xxxxxxxxxxxxxxx',
 		'database' => 'log'
 	);
-	// Next: get the jobmanager db-model to write job parameters and executions to database.
+
+	// now load the JobManager
 	$jobManagerModel = JobManager\Example\DI::getJobManagerModel($db);
 	$jobManager = new JobManager\JobManager($jobManagerModel);
 
-	// create a jobExecuter that will start your cronjob according to parameters of your cronjob and options
+	// the jobmanager writes job parameters to db on first call or just loads the job
+	// he returns a jobExecuter that will start your cronjob according to parameters of your cronjob and options and writes all executions and logs to the database
 	$jobExecutor = $jobManager->getJobOrRegister($jobname, new JobManager\JobExecutor($jobname, $groupname, $status, $minElapseOnSuccess, $minElapseOnError, $script, $description));
 	$jobExecutor->setExecutableTask($my_cronjob);
 
