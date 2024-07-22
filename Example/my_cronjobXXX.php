@@ -1,13 +1,9 @@
 <?php
 
-/**
-this php-script is to be used to start the (cron)job, e.g. via crontab, e.g.
-5    *    *    *    *         /var/www/scripts/cron/import/my_cronjob.php
-or manually, e.g.
-php my_cronjob.php force
-
-The JobManager will log the executions/steps and will ensure, the job is executed according to $minElapseOnSuccess/$minElapseOnError.
-*/
+// this php-script is to be used to start the (cron)job, e.g. via crontab, e.g.
+// */5    *    *    *    *         /var/www/scripts/cron/import/my_cronjob.php
+// or manually, e.g.
+// php my_cronjob.php force
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -25,9 +21,8 @@ $testString = "This conjob gets tracked with the JobManager library";
 $my_cronjob = new JobManager\Example\MyCronJob($fakeDb, $fakeResource, $testString);
 
 // Next: think of a unique name of the cronjob (primary key)
-// these parameters will be saved in the database
 $jobname = 'mycronjob'; // up to you
-$groupname = 'imports'; // up to you
+$groupname = 'imports';
 $status = JobManager\JobExecutor::ACTIVE;
 $script = 'import/my_cronjob.php';
 $minElapseOnSuccess = 1; // at least 1 minute has to elapse before restart after last successfull start
@@ -36,19 +31,17 @@ $description = 'Imports data';
 // $options = Object;
 
 try {
-	// change this according to your database
 	$db =array(
 		'hostname' => '10.64.213.228',
 		'login' => 'mylogin',
 		'pass' => 'xxxxxxxxxxxxxxx',
 		'database' => 'log'
 	);
-	// now load the JobManager
+	// Next: get the jobmanager db-model to write job parameters and executions to database.
 	$jobManagerModel = JobManager\Example\DI::getJobManagerModel($db);
 	$jobManager = new JobManager\JobManager($jobManagerModel);
 
-	// the jobmanager writes job parameters to db on first call or just loads the job
-	// he returns a jobExecuter that will start your cronjob according to parameters of your cronjob and options and writes all executions and logs to the database
+	// create a jobExecuter that will start your cronjob according to parameters of your cronjob and options
 	$jobExecutor = $jobManager->getJobOrRegister($jobname, new JobManager\JobExecutor($jobname, $groupname, $status, $minElapseOnSuccess, $minElapseOnError, $script, $description));
 	$jobExecutor->setExecutableTask($my_cronjob);
 
